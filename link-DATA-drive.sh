@@ -16,6 +16,7 @@ fs_type=$(blkid -o value -s TYPE /dev/$part)
 read -p "Enter desired folder name: " name
 if [ ! -d /mnt/$name ]; then
 	mkdir /mnt/$name
+	name=$name
 fi
 read -p "Enter owner/user name: " user_name
 
@@ -94,7 +95,7 @@ fi
 if [ ! -d /mnt/$name/.ssh ]; then
 	mkdir /mnt/$name/.ssh
 else
-	echo "Applications folder exists"
+	echo ".ssh folder exists"
 fi
 echo "---------done---------"
 #################################################
@@ -195,7 +196,7 @@ echo "adding DATA part UUID to fstab"
 if grep -Fxq "UUID=$PART_ID /mnt/$name $fs_type defaults,noatime 0 2" /etc/fstab; then
 	echo "Already in fstab"
 else
-	name=DATA
+	#name=DATA #removed hoping the change above in assigning #name to variable name will work
 	echo "UUID=$PART_ID /mnt/$name $fs_type defaults,noatime 0 2" >> /etc/fstab
 fi
 echo "---------done---------"
